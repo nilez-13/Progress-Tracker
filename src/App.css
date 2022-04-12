@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+.inputbox {
+  @apply block w-full py-2 px-3 transition-all bg-white border border-gray-300 rounded text-sm;
+}
+
+.inputbox:focus {
+  outline: 0;
+  box-shadow: 0 0 0 2px #bee3f8;
+  border: 1px solid #63b3ed;
+}
+
+.titlebox {
+  font-size: large;
+}
+
+.titlebox:hover {
+  cursor: pointer;
+}
+
+.titlebox:focus {
+  outline: 0;
+  box-shadow: 0 0 0 2px #bee3f8;
+  border: 1px solid #63b3ed;
+  @apply block w-full px-3 transition-all bg-white border border-gray-300 rounded text-lg;
+}
+
+.inputbox[disabled] {
+  opacity: 0.5;
+}
