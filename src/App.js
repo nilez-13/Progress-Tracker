@@ -330,6 +330,7 @@ const App = () => {
                                     "weight"
                                   )}
                                   value={set.weight}
+                                  type="number"
                                 />
                                 <select
                                   className="inputbox"
