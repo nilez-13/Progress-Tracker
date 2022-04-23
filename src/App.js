@@ -172,10 +172,12 @@ const App = () => {
           <div className="font-bold text-4xl">Progress Tracker</div>
           <div className="mr-4">
             <button
-              className="p-1 bg-green-600 text-white rounded"
+              className="p-1 bg-green-600 text-white rounded mt-2 px-2"
               onClick={handleSave}
             >
-              <FaSave className="text-xl" />
+              <span className="flex flex-wrap gap-2 font-bold">
+                <FaSave className="mt-1" /> Save
+              </span>
             </button>
           </div>
         </div>
@@ -228,7 +230,7 @@ const App = () => {
                     key={index}
                   >
                     <div className="fixed bottom-0 w-full nav-color z-10 flex flex-warp -ml-6">
-                      <div className="text-white flex flex-wrap w-fulll text-xl ml-4 mt-4 col-span-2">
+                      <div className="text-white flex flex-wrap w-fulll text-xl ml-4 mt-4">
                         <FaAngleLeft
                           onClick={() =>
                             index !== 0
@@ -237,7 +239,7 @@ const App = () => {
                           }
                         />
                       </div>
-                      <div className="w-1/3 mx-2 mt-2">
+                      <div className="w-1/4 mx-2 ml-4 mt-2 mt-3">
                         <input
                           className="ml-4 titlebox"
                           placeholder="Day"
@@ -245,7 +247,7 @@ const App = () => {
                           value={each.day}
                         />
                       </div>
-                      <div className="text-white flex flex-wrap w-fulll text-xl mt-4">
+                      <div className="text-white flex flex-wrap w-fulll ml-4 text-xl mt-4">
                         <FaAngleRight
                           onClick={() =>
                             index !== days.length - 1
