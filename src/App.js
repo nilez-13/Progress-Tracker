@@ -1,9 +1,12 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FaSave, FaTrash, FaPlus } from "react-icons/fa";
 
 const App = () => {
+  const [weeks, setWeeks] = useState([]);
   const [days, setDays] = useState([]);
   const [updated, setUpdated] = useState(false);
+  const [chosenWeek, setChosenWeek] = useState("");
   const singleDay = { day: "", parts: "", excercises: [] };
   const singleExercise = {
     name: "",
@@ -13,6 +16,33 @@ const App = () => {
       { rep: 8, weight: "", difficulty: "" },
     ],
     notes: "",
+  };
+
+  useEffect(() => {
+    const startingVals = JSON.parse(localStorage.getItem("weeks"));
+    if (startingVals) {
+      setWeeks(startingVals);
+    }
+  }, []);
+
+  const handleAddWeek = () => {
+    const tempDays = [
+      { day: "Sunday", parts: "", excercises: [] },
+      { day: "Monday", parts: "", excercises: [] },
+      { day: "Tuesday", parts: "", excercises: [] },
+      { day: "Wednesday", parts: "", excercises: [] },
+      { day: "Thursday", parts: "", excercises: [] },
+      { day: "Friday", parts: "", excercises: [] },
+      { day: "Saturday", parts: "", excercises: [] },
+    ];
+    const tempWeeks = [...weeks];
+    tempWeeks.push(tempDays);
+    setWeeks(tempWeeks);
+  };
+
+  const handleWeekChoose = (event) => {
+    setChosenWeek(event.target.value);
+    setDays(weeks[event.target.value]);
   };
 
   const handleAddWorkout = () => {
@@ -54,25 +84,63 @@ const App = () => {
   const handleAddExercise = (index) => {
     const tempDays = [...days];
     tempDays[index].excercises.push(singleExercise);
+    setDays(tempDays);
     setUpdated(!updated);
   };
 
-  console.log(days);
+  const handleSave = () => {
+    localStorage.setItem("weeks", JSON.stringify(weeks));
+  };
+
   return (
-    <div className="App">
-      <h2 className="font-bold text-4xl">Progress Tracker</h2>
-      <div className="w-full flex justify-end  pr-4">
-        <button
-          className="p-2 bg-blue-400 text-white rounded"
-          onClick={handleAddWorkout}
-        >
-          Add Workout
-        </button>
+    <div className="overflow-y-scroll px-2">
+      <div className="w-full flex justify-between gap-2 mt-4">
+        <div className="font-bold text-4xl">Progress Tracker</div>
+        <div className="mr-4">
+          <button
+            className="p-1 bg-green-600 text-white rounded"
+            onClick={handleSave}
+          >
+            <FaSave className="text-xl" />
+          </button>
+        </div>
       </div>
+      <div className="w-full flex  gap-2 mt-4">
+        <div className="w-1/3">
+          <select
+            className="inputbox"
+            value={chosenWeek}
+            onChange={handleWeekChoose}
+          >
+            <option>Choose week</option>
+            {weeks.map((each, index) => (
+              <option value={index}>Week {index + 1}</option>
+            ))}
+          </select>
+        </div>
+        <div className="w-2/3 flex justify-end gap-4 pr-4">
+          <button
+            className="p-2 bg-blue-400 text-white rounded"
+            onClick={handleAddWeek}
+          >
+            Add Week
+          </button>
+          <button
+            className="p-2 bg-blue-400 text-white rounded"
+            onClick={handleAddWorkout}
+          >
+            Add Workout
+          </button>
+        </div>
+      </div>
+
       <div className="mt-4">
         {days.length > 0 &&
           days.map((each, index) => (
-            <div className="m-auto w-3/4 border-2 rounded p-2 my-4" key={index}>
+            <div
+              className="m-auto w-full border-2  rounded p-2 my-4"
+              key={index}
+            >
               <div className="grid grid-cols-3 gap-4">
                 <input
                   className="titlebox"
@@ -86,16 +154,16 @@ const App = () => {
                   onChange={handleSingleDay(index, "parts")}
                   value={each.parts}
                 />
-                <button
-                  className="p-2 bg-blue-400 text-white rounded"
+                <div
+                  className="ml-16 rounded-full h-8 w-8 flex bg-blue-400 m-2"
                   onClick={() => handleAddExercise(index)}
                 >
-                  Add Exercise
-                </button>
+                  <FaPlus className="text-white m-auto" />
+                </div>
               </div>
               {each.excercises.length > 0 &&
                 each.excercises.map((exercise, eIndex) => (
-                  <div className="mt-4 border-solid border-black border-b-2 border-l-2 p-4">
+                  <div className="mt-4 border-solid  border-b-2 border-l-2 p-4">
                     <div className="flex justify-start gap-4">
                       <span className="font-bold text-lg">Exercise</span>
 
@@ -105,8 +173,8 @@ const App = () => {
                         onChange={handleSingleExercise(index, eIndex, "name")}
                         value={exercise.name}
                       />
-                      <button className="bg-red-500 text-white rounded  px-3 py-2">
-                        Remove
+                      <button className="text-red-500  rounded px-2">
+                        <FaTrash />
                       </button>
                     </div>
                     <div className="mt-2">
