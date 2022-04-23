@@ -84,6 +84,7 @@ const App = () => {
     }
     tempWeeks.push(tempDays);
     setWeeks(tempWeeks);
+    handleHide();
   };
 
   const handleWeekChoose = (event) => {
@@ -158,12 +159,10 @@ const App = () => {
 
   const handleSave = () => {
     localStorage.setItem("weeks", JSON.stringify(weeks));
-    console.log("saved");
+    // console.log("saved");
   };
 
   const difficultyOptions = ["easy", "medium", "hard"];
-
-  console.log(weeks, chosenWeek);
 
   return (
     <>
@@ -218,7 +217,8 @@ const App = () => {
         </div>
 
         <div className="mt-4">
-          {days.length > 0 &&
+          {days &&
+            days.length > 0 &&
             days.map(
               (each, index) =>
                 chosenDay === index && (
