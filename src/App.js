@@ -88,9 +88,19 @@ const App = () => {
     setUpdated(!updated);
   };
 
+  const handleDeleteExercise = (index, eIndex) => {
+    const tempDays = [...days];
+    tempDays[index].excercises.splice(eIndex, 1);
+    setDays(tempDays);
+    setUpdated(!updated);
+  };
+
   const handleSave = () => {
     localStorage.setItem("weeks", JSON.stringify(weeks));
+    console.log("saved");
   };
+
+  const difficultyOptions = ["easy", "medium", "hard"];
 
   return (
     <div className="overflow-y-scroll px-2">
@@ -173,7 +183,10 @@ const App = () => {
                         onChange={handleSingleExercise(index, eIndex, "name")}
                         value={exercise.name}
                       />
-                      <button className="text-red-500  rounded px-2">
+                      <button
+                        className="text-red-500  rounded px-2"
+                        onClick={() => handleDeleteExercise(index, eIndex)}
+                      >
                         <FaTrash />
                       </button>
                     </div>
@@ -207,7 +220,7 @@ const App = () => {
                             )}
                             value={set.weight}
                           />
-                          <input
+                          <select
                             className="inputbox"
                             placeholder="Difficulty"
                             onChange={handleSingleSet(
@@ -217,7 +230,11 @@ const App = () => {
                               "difficulty"
                             )}
                             value={set.difficulty}
-                          />
+                          >
+                            {difficultyOptions.map((diff) => (
+                              <option value={diff}>{diff}</option>
+                            ))}
+                          </select>
                         </div>
                       ))}
                     </div>
