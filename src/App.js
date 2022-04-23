@@ -1,6 +1,12 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { FaSave, FaTrash, FaPlus } from "react-icons/fa";
+import {
+  FaSave,
+  FaTrash,
+  FaPlus,
+  FaAngleRight,
+  FaAngleLeft,
+} from "react-icons/fa";
 import Dialog from "./Dialog";
 
 const App = () => {
@@ -9,6 +15,7 @@ const App = () => {
   const [updated, setUpdated] = useState(false);
   const [chosenWeek, setChosenWeek] = useState("");
   const [open, setOpen] = useState(false);
+  const [chosenDay, setChosenDay] = useState(0);
 
   const singleDay = { day: "", parts: "", excercises: [] };
   const singleExercise = {
@@ -24,7 +31,10 @@ const App = () => {
   useEffect(() => {
     const startingVals = JSON.parse(localStorage.getItem("weeks"));
     if (startingVals) {
+      const lastIndex = startingVals.length - 1;
       setWeeks(startingVals);
+      setChosenWeek(lastIndex);
+      setDays(startingVals[lastIndex]);
     }
   }, []);
 
@@ -176,7 +186,7 @@ const App = () => {
               value={chosenWeek}
               onChange={handleWeekChoose}
             >
-              <option>Choose week</option>
+              <option value={""}>Choose week</option>
               {weeks.map((each, index) => (
                 <option value={index}>Week {index + 1}</option>
               ))}
@@ -209,105 +219,138 @@ const App = () => {
 
         <div className="mt-4">
           {days.length > 0 &&
-            days.map((each, index) => (
-              <div
-                className="m-auto w-full border-2  rounded p-2 my-4"
-                key={index}
-              >
-                <div className="grid grid-cols-3 gap-4">
-                  <input
-                    className="titlebox"
-                    placeholder="Day"
-                    onChange={handleSingleDay(index, "day")}
-                    value={each.day}
-                  />
-                  <input
-                    className="titlebox"
-                    placeholder="Body Parts"
-                    onChange={handleSingleDay(index, "parts")}
-                    value={each.parts}
-                  />
+            days.map(
+              (each, index) =>
+                chosenDay === index && (
                   <div
-                    className="ml-16 rounded-full h-8 w-8 flex bg-blue-400 m-2"
-                    onClick={() => handleAddExercise(index)}
+                    className="relative m-auto w-full border-2  rounded p-2 my-4"
+                    key={index}
                   >
-                    <FaPlus className="text-white m-auto" />
-                  </div>
-                </div>
-                {each.excercises.length > 0 &&
-                  each.excercises.map((exercise, eIndex) => (
-                    <div
-                      className="mt-4 border-solid  border-b-2 border-l-2 p-4"
-                      key={`week-${chosenWeek}-${index}=${eIndex}`}
-                    >
-                      <div className="flex justify-start gap-4">
-                        <span className="font-bold text-lg">Exercise</span>
-
-                        <input
-                          className="inputbox"
-                          placeholder="Exercise"
-                          onChange={handleSingleExercise(index, eIndex, "name")}
-                          value={exercise.name}
+                    <div className="fixed bottom-0 w-full nav-color z-10 flex flex-warp -ml-6">
+                      <div className="text-white flex flex-wrap w-fulll text-xl ml-4 mt-4 col-span-2">
+                        <FaAngleLeft
+                          onClick={() =>
+                            index !== 0
+                              ? setChosenDay(chosenDay - 1)
+                              : setChosenDay(days.length - 1)
+                          }
                         />
-                        <button
-                          className="text-red-500  rounded px-2"
-                          onClick={() => handleDeleteExercise(index, eIndex)}
-                        >
-                          <FaTrash />
-                        </button>
                       </div>
-                      <div className="mt-2">
-                        <div className="grid grid-cols-3 gap-4">
-                          <span className="">Reps</span>
-                          <span className="">Weight (kg)</span>
-                          <span className="">Difficulty</span>
-                        </div>
-                        {exercise.sets.map((set, sIndex) => (
-                          <div className="my-1 grid grid-cols-3 gap-4">
-                            <input
-                              className="inputbox"
-                              placeholder="Reps"
-                              onChange={handleSingleSet(
-                                index,
-                                eIndex,
-                                sIndex,
-                                "rep"
-                              )}
-                              value={set.rep}
-                            />
-                            <input
-                              className="inputbox"
-                              placeholder="Weight"
-                              onChange={handleSingleSet(
-                                index,
-                                eIndex,
-                                sIndex,
-                                "weight"
-                              )}
-                              value={set.weight}
-                            />
-                            <select
-                              className="inputbox"
-                              placeholder="Difficulty"
-                              onChange={handleSingleSet(
-                                index,
-                                eIndex,
-                                sIndex,
-                                "difficulty"
-                              )}
-                              value={set.difficulty}
-                            >
-                              {difficultyOptions.map((diff) => (
-                                <option value={diff}>{diff}</option>
-                              ))}
-                            </select>
-                          </div>
-                        ))}
+                      <div className="w-1/3 mx-2 mt-2">
+                        <input
+                          className="ml-4 titlebox"
+                          placeholder="Day"
+                          onChange={handleSingleDay(index, "day")}
+                          value={each.day}
+                        />
+                      </div>
+                      <div className="text-white flex flex-wrap w-fulll text-xl mt-4">
+                        <FaAngleRight
+                          onClick={() =>
+                            index !== days.length - 1
+                              ? setChosenDay(chosenDay + 1)
+                              : setChosenDay(0)
+                          }
+                        />
+                      </div>
+
+                      <div
+                        className="ml-16 rounded-full text-white px-4 py-2 flex bg-blue-600 m-2 "
+                        onClick={() => handleAddExercise(index)}
+                      >
+                        {/* <FaPlus className="text-white m-auto" /> */}
+                        Add Exercise
                       </div>
                     </div>
-                  ))}
-              </div>
-            ))}
+                    <div>
+                      <input
+                        className="inputbox"
+                        placeholder="Body Parts"
+                        onChange={handleSingleDay(index, "parts")}
+                        value={each.parts}
+                      />
+                    </div>
+                    {each.excercises.length > 0 &&
+                      each.excercises.map((exercise, eIndex) => (
+                        <div
+                          className="mt-2 border-solid  border-b-2 border-l-2 p-4 last:mb-8"
+                          key={`week-${chosenWeek}-${index}=${eIndex}`}
+                        >
+                          <div className="flex justify-start gap-4">
+                            <span className="font-bold text-lg">Exercise</span>
+
+                            <input
+                              className="inputbox"
+                              placeholder="Exercise"
+                              onChange={handleSingleExercise(
+                                index,
+                                eIndex,
+                                "name"
+                              )}
+                              value={exercise.name}
+                            />
+                            <button
+                              className="text-red-500  rounded px-2"
+                              onClick={() =>
+                                handleDeleteExercise(index, eIndex)
+                              }
+                            >
+                              <FaTrash />
+                            </button>
+                          </div>
+                          <div className="mt-2">
+                            <div className="grid grid-cols-3 gap-4">
+                              <span className="">Reps</span>
+                              <span className="">Weight (kg)</span>
+                              <span className="">Difficulty</span>
+                            </div>
+                            {exercise.sets.map((set, sIndex) => (
+                              <div className="my-1 grid grid-cols-3 gap-4">
+                                <input
+                                  className="inputbox"
+                                  placeholder="Reps"
+                                  onChange={handleSingleSet(
+                                    index,
+                                    eIndex,
+                                    sIndex,
+                                    "rep"
+                                  )}
+                                  value={set.rep}
+                                />
+                                <input
+                                  className="inputbox"
+                                  placeholder="Weight"
+                                  onChange={handleSingleSet(
+                                    index,
+                                    eIndex,
+                                    sIndex,
+                                    "weight"
+                                  )}
+                                  value={set.weight}
+                                />
+                                <select
+                                  className="inputbox"
+                                  placeholder="Difficulty"
+                                  onChange={handleSingleSet(
+                                    index,
+                                    eIndex,
+                                    sIndex,
+                                    "difficulty"
+                                  )}
+                                  value={set.difficulty}
+                                >
+                                  {difficultyOptions.map((diff) => (
+                                    <option value={diff}>{diff}</option>
+                                  ))}
+                                </select>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                )
+            )}
         </div>
       </div>
       <Dialog
