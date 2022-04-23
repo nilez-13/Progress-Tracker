@@ -159,6 +159,7 @@ const App = () => {
 
   const handleSave = () => {
     localStorage.setItem("weeks", JSON.stringify(weeks));
+    alert("Saved");
     // console.log("saved");
   };
 
