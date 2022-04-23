@@ -319,6 +319,7 @@ const App = () => {
                                     "rep"
                                   )}
                                   value={set.rep}
+                                  type="number"
                                 />
                                 <input
                                   className="inputbox"
