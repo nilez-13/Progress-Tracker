@@ -197,21 +197,21 @@ const App = () => {
           <div className="w-2/3 flex justify-end gap-4 pr-4">
             {weeks.length > 0 ? (
               <button
-                className="p-2 bg-blue-600 text-white rounded"
+                className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
                 onClick={handleShow}
               >
                 Add Week
               </button>
             ) : (
               <button
-                className="p-2 bg-blue-600 text-white rounded"
+                className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
                 onClick={() => handleAddWeek(false)}
               >
                 Add Week
               </button>
             )}
             <button
-              className="p-2 bg-blue-600 text-white rounded"
+              className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
               onClick={handleAddWorkout}
             >
               Add Workout
