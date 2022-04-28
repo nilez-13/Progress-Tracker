@@ -168,11 +168,11 @@ const App = () => {
   return (
     <>
       <div className="overflow-y-scroll px-2">
-        <div className="w-full flex justify-between gap-2 mt-4">
-          <div className="font-bold text-4xl">Progress Tracker</div>
+        <div className="fixed top-0 pt-2 back-color z-10 w-full flex justify-between gap-2 mt-4">
+          <div className="font-bold italic text-2xl">Progress Tracker</div>
           <div className="mr-4">
             <button
-              className="p-1 bg-green-600 text-white rounded mt-2 px-2"
+              className="p-1 bg-green-600 text-white rounded mt-1 px-2"
               onClick={handleSave}
             >
               <span className="flex flex-wrap gap-2 font-bold">
@@ -181,7 +181,7 @@ const App = () => {
             </button>
           </div>
         </div>
-        <div className="w-full flex  gap-2 mt-4">
+        <div className="mt-16 w-full flex  gap-2 mt-4">
           <div className="w-1/3">
             <select
               className="inputbox"
@@ -197,21 +197,21 @@ const App = () => {
           <div className="w-2/3 flex justify-end gap-4 pr-4">
             {weeks.length > 0 ? (
               <button
-                className="p-2 bg-blue-400 text-white rounded"
+                className="p-2 bg-blue-600 text-white rounded"
                 onClick={handleShow}
               >
                 Add Week
               </button>
             ) : (
               <button
-                className="p-2 bg-blue-400 text-white rounded"
+                className="p-2 bg-blue-600 text-white rounded"
                 onClick={() => handleAddWeek(false)}
               >
                 Add Week
               </button>
             )}
             <button
-              className="p-2 bg-blue-400 text-white rounded"
+              className="p-2 bg-blue-600 text-white rounded"
               onClick={handleAddWorkout}
             >
               Add Workout
@@ -226,7 +226,7 @@ const App = () => {
               (each, index) =>
                 chosenDay === index && (
                   <div
-                    className="relative m-auto w-full border-2  rounded p-2 my-4"
+                    className="relative m-auto w-full border-2 border-gray-400  rounded p-2 my-4"
                     key={index}
                   >
                     <div className="fixed bottom-0 w-full nav-color z-10 flex flex-warp -ml-6">
@@ -276,7 +276,7 @@ const App = () => {
                     {each.excercises.length > 0 &&
                       each.excercises.map((exercise, eIndex) => (
                         <div
-                          className="mt-2 border-solid  border-b-2 border-l-2 p-4 last:mb-8"
+                          className="mt-2 border-solid  border-b-2 border-gray-400 border-l-2 p-4 last:mb-8"
                           key={`week-${chosenWeek}-${index}=${eIndex}`}
                         >
                           <div className="flex justify-start gap-4">
