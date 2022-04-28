@@ -181,7 +181,7 @@ const App = () => {
             </button>
           </div>
         </div>
-        <div className="mt-24 w-full flex  gap-2 mt-4">
+        <div className="mt-16 w-full flex  gap-2 ">
           <div className="w-1/3">
             <select
               className="inputbox"
