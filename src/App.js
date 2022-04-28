@@ -1,13 +1,9 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import {
-  FaSave,
-  FaTrash,
-  FaPlus,
-  FaAngleRight,
-  FaAngleLeft,
-} from "react-icons/fa";
+import { FaSave, FaTrash, FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import Dialog from "./Dialog";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [weeks, setWeeks] = useState([]);
@@ -159,7 +155,7 @@ const App = () => {
 
   const handleSave = () => {
     localStorage.setItem("weeks", JSON.stringify(weeks));
-    alert("Saved");
+    toast("Saved");
     // console.log("saved");
   };
 
@@ -384,6 +380,7 @@ const App = () => {
         }
       />
       <div id="modal-root" />
+      <ToastContainer position="bottom-left" theme="dark" />
     </>
   );
 };
