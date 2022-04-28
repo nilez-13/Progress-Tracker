@@ -380,7 +380,7 @@ const App = () => {
         }
       />
       <div id="modal-root" />
-      <ToastContainer position="bottom-left" theme="dark" />
+      <ToastContainer position="bottom-left" theme="dark" autoClose={1000} />
     </>
   );
 };
