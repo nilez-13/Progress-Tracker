@@ -164,7 +164,7 @@ const App = () => {
   return (
     <>
       <div className=" px-2">
-        <div className="fixed top-0 pt-2 back-color z-10 w-full flex justify-between gap-2 h-14  mb-2">
+        <div className="fixed top-0 pt-2 back-color z-10 w-full flex justify-between gap-2 h-14  mb-2 border-b-1 border-b-white">
           <div className="font-bold italic text-2xl">Progress Tracker</div>
           <div className="mr-4">
             <button
