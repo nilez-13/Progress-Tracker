@@ -61,7 +61,7 @@ const Dialog = ({ open, onClose, className, title, body, actions }) => {
         } `}
       >
         {title !== undefined && (
-          <div className="flex flex-wrap items-center justify-between px-4 py-2 bg-blue-600 rounded-tl-lg rounded-tr-lg">
+          <div className="flex flex-wrap items-center justify-between px-4 py-2 bg-gray-900 rounded-tl-lg rounded-tr-lg">
             <h3 className="m-0 text-xl text-white">{title}</h3>
             <button
               type="button"
@@ -73,12 +73,14 @@ const Dialog = ({ open, onClose, className, title, body, actions }) => {
           </div>
         )}
         {body !== undefined && (
-          <div style={dialogHeight} className="overflow-auto p-4">
+          <div style={dialogHeight} className="overflow-auto p-4 back-color">
             {body}
           </div>
         )}
         {actions !== undefined && (
-          <div className="border-t p-2 flex justify-end">{actions}</div>
+          <div className="border-t p-2 flex justify-end back-color">
+            {actions}
+          </div>
         )}
       </div>
     </>
