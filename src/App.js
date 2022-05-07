@@ -378,7 +378,7 @@ const App = () => {
                                   ))}
                                 </select>
                                 <button
-                                  className="text-red-400"
+                                  className="text-red-400 flex justify-end mt-1 mr-2"
                                   onClick={() =>
                                     handleRemoveSet(index, eIndex, sIndex)
                                   }
