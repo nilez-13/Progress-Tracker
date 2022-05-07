@@ -137,7 +137,7 @@ const App = () => {
   const handleSingleSet = (index, eIndex, sIndex, name) => (event) => {
     let tempSet = [...days[index].excercises[eIndex].sets];
     tempSet[sIndex][name] = event.target.value;
-    handleSingleExerciseArray(index, eIndex, "excercises", tempSet);
+    handleSingleExerciseArray(index, eIndex, "sets", tempSet);
   };
 
   const handleAddExercise = (index) => {
@@ -378,7 +378,7 @@ const App = () => {
                                   ))}
                                 </select>
                                 <button
-                                  className="text-red-400 flex justify-end mt-1 mr-2"
+                                  className="text-red-500 flex justify-end mt-1 mr-2"
                                   onClick={() =>
                                     handleRemoveSet(index, eIndex, sIndex)
                                   }
