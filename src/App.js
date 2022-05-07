@@ -337,11 +337,11 @@ const App = () => {
                           </div>
                           <div className="mt-2">
                             <div className="grid grid-cols-7 gap-4">
-                              <span className="grid col-span-1">Reps</span>
+                              <span className="grid col-span-2">Reps</span>
                               <span className="grid col-span-2">
                                 Weight (kg)
                               </span>
-                              <span className="grid col-span-3">
+                              <span className="grid col-span-2">
                                 Difficulty
                               </span>
                               <span> </span>
@@ -349,7 +349,7 @@ const App = () => {
                             {exercise.sets.map((set, sIndex) => (
                               <div className="my-1 grid grid-cols-7 gap-4">
                                 <input
-                                  className="inputbox grid col-span-1"
+                                  className="inputbox grid col-span-2"
                                   placeholder="Reps"
                                   onChange={handleSingleSet(
                                     index,
@@ -373,7 +373,7 @@ const App = () => {
                                   type="number"
                                 />
                                 <select
-                                  className="inputbox grid col-span-3"
+                                  className="inputbox grid col-span-2"
                                   placeholder="Difficulty"
                                   onChange={handleSingleSet(
                                     index,
