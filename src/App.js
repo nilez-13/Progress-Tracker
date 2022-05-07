@@ -104,6 +104,15 @@ const App = () => {
     setWeeks(tempWeeks);
   };
 
+  const handleClearWorkout = () => {
+    const tempDays = [...days];
+    tempDays[chosenDay] = { ...tempDays[chosenDay], exercises: [] };
+    setDays(tempDays);
+    const tempWeeks = [...weeks];
+    tempWeeks[chosenWeek] = tempDays;
+    setWeeks(tempWeeks);
+  };
+
   const handleSingleDay = (index, name) => (event) => {
     const tempDays = [...days];
     tempDays[index][name] = event.target.value;
@@ -234,6 +243,7 @@ const App = () => {
                 Add Week
               </button>
             )}
+
             <button
               className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
               onClick={handleAddWorkout}
@@ -282,7 +292,7 @@ const App = () => {
                       </div>
 
                       <div
-                        className="ml-16 rounded-full text-white px-4 py-2 flex bg-blue-600 m-2 "
+                        className="ml-16 text-sm rounded-full text-white px-4 py-2 flex bg-blue-600 m-2 "
                         onClick={() => handleAddExercise(index)}
                       >
                         {/* <FaPlus className="text-white m-auto" /> */}
