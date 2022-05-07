@@ -1,6 +1,13 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { FaSave, FaTrash, FaAngleRight, FaAngleLeft } from "react-icons/fa";
+import {
+  FaSave,
+  FaTrash,
+  FaAngleRight,
+  FaAngleLeft,
+  FaPlus,
+  FaMinusCircle,
+} from "react-icons/fa";
 import Dialog from "./Dialog";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -141,6 +148,27 @@ const App = () => {
     tempWeeks[chosenWeek] = tempDays;
     setWeeks(tempWeeks);
     setUpdated(!updated);
+  };
+
+  const handleAddSet = (index, eIndex) => {
+    const tempDays = [...days];
+    tempDays[index].excercises[eIndex].sets.push({
+      rep: 8,
+      weight: "",
+      difficulty: "",
+    });
+    setDays(tempDays);
+    const tempWeeks = [...weeks];
+    tempWeeks[chosenWeek] = tempDays;
+    setWeeks(tempWeeks);
+    setUpdated(!updated);
+  };
+
+  const handleRemoveSet = (index, eIndex, sIndex) => {
+    let tempSet = [...days[index].excercises[eIndex].sets];
+    tempSet.splice(sIndex, 1);
+    console.log(tempSet);
+    handleSingleExerciseArray(index, eIndex, "sets", tempSet);
   };
 
   const handleDeleteExercise = (index, eIndex) => {
@@ -298,15 +326,20 @@ const App = () => {
                             </button>
                           </div>
                           <div className="mt-2">
-                            <div className="grid grid-cols-3 gap-4">
-                              <span className="">Reps</span>
-                              <span className="">Weight (kg)</span>
-                              <span className="">Difficulty</span>
+                            <div className="grid grid-cols-7 gap-4">
+                              <span className="grid col-span-2">Reps</span>
+                              <span className="grid col-span-2">
+                                Weight (kg)
+                              </span>
+                              <span className="grid col-span-2">
+                                Difficulty
+                              </span>
+                              <span> </span>
                             </div>
                             {exercise.sets.map((set, sIndex) => (
-                              <div className="my-1 grid grid-cols-3 gap-4">
+                              <div className="my-1 grid grid-cols-7 gap-4">
                                 <input
-                                  className="inputbox"
+                                  className="inputbox grid col-span-2"
                                   placeholder="Reps"
                                   onChange={handleSingleSet(
                                     index,
@@ -318,7 +351,7 @@ const App = () => {
                                   type="number"
                                 />
                                 <input
-                                  className="inputbox"
+                                  className="inputbox grid col-span-2"
                                   placeholder="Weight"
                                   onChange={handleSingleSet(
                                     index,
@@ -330,7 +363,7 @@ const App = () => {
                                   type="number"
                                 />
                                 <select
-                                  className="inputbox"
+                                  className="inputbox grid col-span-2"
                                   placeholder="Difficulty"
                                   onChange={handleSingleSet(
                                     index,
@@ -344,8 +377,22 @@ const App = () => {
                                     <option value={diff}>{diff}</option>
                                   ))}
                                 </select>
+                                <button
+                                  className="text-red-400"
+                                  onClick={() =>
+                                    handleRemoveSet(index, eIndex, sIndex)
+                                  }
+                                >
+                                  <FaMinusCircle />
+                                </button>
                               </div>
                             ))}
+                            <button
+                              className="back-color border border-gray-200 text-white w-full py-1 flex justify-center rounded-full mt-2"
+                              onClick={() => handleAddSet(index, eIndex)}
+                            >
+                              <FaPlus />
+                            </button>
                           </div>
                         </div>
                       ))}
