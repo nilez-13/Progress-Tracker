@@ -27,23 +27,40 @@ const DragHandle = SortableHandle(() => (
   </span>
 ));
 
-const SortableItem = SortableElement(({ value }) => (
-  <div className="mt-2 border-solid  border-b-2 border-gray-400 border-l-2 p-2">
+const SortableItem = SortableElement(({ value, listIndex, currentIndex }) => (
+  <div
+    className={`mt-2 border-solid  border-b-2 border-l-2 p-2 ${
+      listIndex === currentIndex
+        ? "border-blue-600 border-t-2"
+        : "border-gray-300"
+    } `}
+  >
     {value}
   </div>
 ));
 
 const SortableList = SortableContainer(
-  ({ items, handleSingleDay, handleRemoveWorkout }) => {
+  ({
+    items,
+    handleSingleDay,
+    handleRemoveWorkout,
+    currentIndex,
+    setChosenDay,
+  }) => {
     return (
       <div className="">
         {items.map((each, index) => (
           <SortableItem
             key={index}
             index={index}
+            currentIndex={currentIndex}
+            listIndex={index}
             value={
-              <div className="mt-2 grid grid-cols-3 gap-4">
-                <div className="ml-4">
+              <div
+                className="mt-2 grid grid-cols-3 gap-4"
+                onClick={() => setChosenDay(index)}
+              >
+                <div className="ml-4 z-10">
                   <DragHandle />
                 </div>
                 <div className="">
@@ -54,11 +71,8 @@ const SortableList = SortableContainer(
                     value={each.day}
                   />
                 </div>
-                <button
-                  className="text-red-500 flex justify-end mt-1 mr-2"
-                  onClick={() => handleRemoveWorkout(index)}
-                >
-                  <FaMinusCircle />
+                <button className="text-red-400 flex justify-end mt-1 mr-2">
+                  <FaMinusCircle onClick={() => handleRemoveWorkout(index)} />
                 </button>
               </div>
             }
@@ -281,7 +295,7 @@ const App = () => {
   return (
     <>
       <div className=" px-2">
-        <div className="fixed top-0 pt-2 back-color z-10 w-full flex justify-between gap-2 h-14  mb-2 border-b-1 border-b-white">
+        <div className="fixed top-0 pt-2 back-color z-10 w-full flex justify-between gap-2 h-14  mb-2 border-b border-gray-300">
           <div className="font-bold italic text-2xl">Progress Tracker</div>
           <div className="mr-4">
             <button
@@ -298,7 +312,7 @@ const App = () => {
           <div className="mt-16 w-full">
             <div className="w-full flex justify-between px-2 text-xl">
               <span className="font-bold">Manage Days </span>
-              <button onClick={handleHideManage} className="text-red-500">
+              <button onClick={handleHideManage} className="text-red-400">
                 <FaTimesCircle />
               </button>
             </div>
@@ -313,6 +327,8 @@ const App = () => {
               useDragHandle
               handleSingleDay={handleSingleDay}
               handleRemoveWorkout={handleRemoveWorkout}
+              currentIndex={chosenDay}
+              setChosenDay={setChosenDay}
             />
             <div className="back-color border border-gray-200 text-white w-full py-1 flex justify-center rounded-full mt-4">
               <button onClick={handleAddWorkout}>Add Day</button>
@@ -444,7 +460,7 @@ const App = () => {
                                   value={exercise.name}
                                 />
                                 <button
-                                  className="text-red-500  rounded px-2"
+                                  className="text-red-400  rounded px-2"
                                   onClick={() =>
                                     handleDeleteExercise(index, eIndex)
                                   }
@@ -505,7 +521,7 @@ const App = () => {
                                       ))}
                                     </select>
                                     <button
-                                      className="text-red-500 flex justify-end mt-1 mr-2"
+                                      className="text-red-400 flex justify-end mt-1 mr-2"
                                       onClick={() =>
                                         handleRemoveSet(index, eIndex, sIndex)
                                       }
