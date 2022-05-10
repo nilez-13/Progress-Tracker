@@ -7,10 +7,67 @@ import {
   FaAngleLeft,
   FaPlus,
   FaMinusCircle,
+  FaArrowsAlt,
+  FaTimesCircle,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import {
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
+} from "react-sortable-hoc";
+import { arrayMoveImmutable as arrayMove } from "array-move";
+
+const DragHandle = SortableHandle(() => (
+  <span className="hover:shadow-lg ease-in-out cursor-move">
+    <FaArrowsAlt className="text-2xl" />
+  </span>
+));
+
+const SortableItem = SortableElement(({ value }) => (
+  <div className="mt-2 border-solid  border-b-2 border-gray-400 border-l-2 p-2">
+    {value}
+  </div>
+));
+
+const SortableList = SortableContainer(
+  ({ items, handleSingleDay, handleRemoveWorkout }) => {
+    return (
+      <div className="">
+        {items.map((each, index) => (
+          <SortableItem
+            key={index}
+            index={index}
+            value={
+              <div className="mt-2 grid grid-cols-3 gap-4">
+                <div className="ml-4">
+                  <DragHandle />
+                </div>
+                <div className="">
+                  <input
+                    className=" inputbox"
+                    placeholder="Day"
+                    onChange={handleSingleDay(index, "day")}
+                    value={each.day}
+                  />
+                </div>
+                <button
+                  className="text-red-500 flex justify-end mt-1 mr-2"
+                  onClick={() => handleRemoveWorkout(index)}
+                >
+                  <FaMinusCircle />
+                </button>
+              </div>
+            }
+          />
+        ))}
+      </div>
+    );
+  }
+);
 
 const App = () => {
   const [weeks, setWeeks] = useState([]);
@@ -113,6 +170,15 @@ const App = () => {
     setWeeks(tempWeeks);
   };
 
+  const handleRemoveWorkout = (index) => {
+    const tempDays = [...days];
+    tempDays.splice(index, 1);
+    setDays(tempDays);
+    const tempWeeks = [...weeks];
+    tempWeeks[chosenWeek] = tempDays;
+    setWeeks(tempWeeks);
+  };
+
   const handleClearWorkout = () => {
     const tempDays = [...days];
     tempDays[chosenDay] = { ...tempDays[chosenDay], exercises: [] };
@@ -205,6 +271,11 @@ const App = () => {
     // console.log("saved");
   };
 
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    const newImage = arrayMove(days, oldIndex, newIndex);
+    setDays(newImage);
+  };
+
   const difficultyOptions = ["easy", "medium", "hard"];
 
   return (
@@ -224,9 +295,28 @@ const App = () => {
           </div>
         </div>
         {manageDays ? (
-          <div className="mt-16 w-full flex  gap-2">
-            List Days
-            <button onClick={handleHideManage}>Close</button>
+          <div className="mt-16 w-full">
+            <div className="w-full flex justify-between px-2 text-xl">
+              <span className="font-bold">Manage Days </span>
+              <button onClick={handleHideManage} className="text-red-500">
+                <FaTimesCircle />
+              </button>
+            </div>
+            <div className="grid grid-cols-3 gap-4 mt-4 font-bold text-lg">
+              <div className="ml-4">Order</div>
+              <div>Day</div>
+            </div>
+            <SortableList
+              axis="y"
+              items={days}
+              onSortEnd={onSortEnd}
+              useDragHandle
+              handleSingleDay={handleSingleDay}
+              handleRemoveWorkout={handleRemoveWorkout}
+            />
+            <div className="back-color border border-gray-200 text-white w-full py-1 flex justify-center rounded-full mt-4">
+              <button onClick={handleAddWorkout}>Add Day</button>
+            </div>
           </div>
         ) : (
           <>
@@ -265,7 +355,7 @@ const App = () => {
                   className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
                   onClick={handleAddWorkout}
                 >
-                  Add Workout
+                  Add Day
                 </button>
               </div>
             </div>
