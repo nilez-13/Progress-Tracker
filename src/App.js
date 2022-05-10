@@ -71,7 +71,7 @@ const SortableList = SortableContainer(
                     value={each.day}
                   />
                 </div>
-                <button className="text-red-400 flex justify-end mt-1 mr-2">
+                <button className="text-red-500 flex justify-end mt-1 mr-2">
                   <FaMinusCircle onClick={() => handleRemoveWorkout(index)} />
                 </button>
               </div>
@@ -312,7 +312,7 @@ const App = () => {
           <div className="mt-16 w-full">
             <div className="w-full flex justify-between px-2 text-xl">
               <span className="font-bold">Manage Days </span>
-              <button onClick={handleHideManage} className="text-red-400">
+              <button onClick={handleHideManage} className="text-red-500">
                 <FaTimesCircle />
               </button>
             </div>
@@ -460,7 +460,7 @@ const App = () => {
                                   value={exercise.name}
                                 />
                                 <button
-                                  className="text-red-400  rounded px-2"
+                                  className="text-red-500  rounded px-2"
                                   onClick={() =>
                                     handleDeleteExercise(index, eIndex)
                                   }
@@ -521,7 +521,7 @@ const App = () => {
                                       ))}
                                     </select>
                                     <button
-                                      className="text-red-400 flex justify-end mt-1 mr-2"
+                                      className="text-red-500 flex justify-end mt-1 mr-2"
                                       onClick={() =>
                                         handleRemoveSet(index, eIndex, sIndex)
                                       }
