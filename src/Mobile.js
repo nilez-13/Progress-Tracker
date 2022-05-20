@@ -46,6 +46,7 @@ const SortableList = SortableContainer(
     handleRemoveWorkout,
     currentIndex,
     setChosenDay,
+    handleHideManage,
   }) => {
     return (
       <div className="">
@@ -58,7 +59,10 @@ const SortableList = SortableContainer(
             value={
               <div
                 className="mt-2 grid grid-cols-3 gap-4"
-                onClick={() => setChosenDay(index)}
+                onClick={() => {
+                  setChosenDay(index);
+                  handleHideManage();
+                }}
               >
                 <div className="ml-4 z-10">
                   <DragHandle />
@@ -329,6 +333,7 @@ const App = () => {
               handleRemoveWorkout={handleRemoveWorkout}
               currentIndex={chosenDay}
               setChosenDay={setChosenDay}
+              handleHideManage={handleHideManage}
             />
             <div className="back-color border border-gray-200 text-white w-full py-1 flex justify-center rounded-full mt-4">
               <button onClick={handleAddWorkout}>Add Day</button>
