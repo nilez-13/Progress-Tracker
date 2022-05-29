@@ -71,7 +71,7 @@ const SortableList = SortableContainer(
                     value={each.day}
                   />
                 </div>
-                <button className="text-red-500 flex justify-end mt-1 mr-2">
+                <button className="text-red-500 z-10 flex justify-end mt-1 mr-2">
                   <FaMinusCircle onClick={() => handleRemoveWorkout(index)} />
                 </button>
               </div>
@@ -186,6 +186,9 @@ const App = () => {
 
   const handleRemoveWorkout = (index) => {
     const tempDays = [...days];
+    if (index === chosenDay) {
+      setChosenDay(0);
+    }
     tempDays.splice(index, 1);
     setDays(tempDays);
     const tempWeeks = [...weeks];
@@ -340,9 +343,9 @@ const App = () => {
                 className="flex justify-center px-4 mt-3"
                 onClick={handleShowManage}
               >
-                {days[chosenDay].day}
+                {days[chosenDay] && days[chosenDay].day}
               </div>
-              <div className="text-white flex flex-wrap w-fulll ml-4 text-xl mt-4">
+              <div className="text-white flex flex-wrap w-fulll text-xl mt-4">
                 <FaAngleRight
                   onClick={() =>
                     chosenDay !== days.length - 1
