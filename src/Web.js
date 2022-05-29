@@ -31,7 +31,7 @@ const SortableItem = SortableElement(({ value, listIndex, currentIndex }) => (
   <div
     className={`mt-2 border-solid  border-b-2 border-l-2 p-2 ${
       listIndex === currentIndex
-        ? "border-blue-600 border-t-2"
+        ? "border-blue-600 border-t-2 border-r-2"
         : "border-gray-300"
     } `}
   >
@@ -310,140 +310,106 @@ const App = () => {
             </button>
           </div>
         </div>
-        {manageDays ? (
-          <div className="mt-16 w-full">
-            <div className="w-full flex justify-between px-2 text-xl">
-              <span className="font-bold">Manage Days </span>
-              <button onClick={handleHideManage} className="text-red-500">
-                <FaTimesCircle />
-              </button>
-            </div>
-            <div className="grid grid-cols-3 gap-4 mt-4 font-bold text-lg">
-              <div className="ml-4">Order</div>
-              <div>Day</div>
-            </div>
-            <SortableList
-              axis="y"
-              items={days}
-              onSortEnd={onSortEnd}
-              useDragHandle
-              handleSingleDay={handleSingleDay}
-              handleRemoveWorkout={handleRemoveWorkout}
-              currentIndex={chosenDay}
-              setChosenDay={setChosenDay}
-            />
-            <div className="back-color border border-gray-200 text-white w-full py-1 flex justify-center rounded-full mt-4">
-              <button onClick={handleAddWorkout}>Add Day</button>
-            </div>
-          </div>
-        ) : (
-          <>
-            {/* main body */}
-            <div className="mt-16 w-full flex  gap-2 ">
-              <div className="w-1/3">
-                <select
-                  className="inputbox"
-                  value={chosenWeek}
-                  onChange={handleWeekChoose}
-                >
-                  <option value={""}>Choose week</option>
-                  {weeks.map((each, index) => (
-                    <option value={index}>Week {index + 1}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="w-2/3 flex justify-end gap-4 pr-4">
-                {weeks.length > 0 ? (
-                  <button
-                    className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
-                    onClick={handleShow}
-                  >
-                    Add Week
-                  </button>
-                ) : (
-                  <button
-                    className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
-                    onClick={() => handleAddWeek(false)}
-                  >
-                    Add Week
-                  </button>
-                )}
 
+        <>
+          {/* main body */}
+          <div className="mt-16 w-full flex justify-between gap-2 ">
+            <div className="w-1/3">
+              <select
+                className="inputbox"
+                value={chosenWeek}
+                onChange={handleWeekChoose}
+              >
+                <option value={""}>Choose week</option>
+                {weeks.map((each, index) => (
+                  <option value={index}>Week {index + 1}</option>
+                ))}
+              </select>
+            </div>
+            <div className="w-1/3 flex flex-warp justify-center cursor-pointer">
+              <div className="text-white flex flex-wrap w-fulll text-xl ml-4 mt-4">
+                <FaAngleLeft
+                  onClick={() =>
+                    chosenDay !== 0
+                      ? setChosenDay(chosenDay - 1)
+                      : setChosenDay(days.length - 1)
+                  }
+                />
+              </div>
+              <div
+                className="flex justify-center px-4 mt-3"
+                onClick={handleShowManage}
+              >
+                {days[chosenDay].day}
+              </div>
+              <div className="text-white flex flex-wrap w-fulll ml-4 text-xl mt-4">
+                <FaAngleRight
+                  onClick={() =>
+                    chosenDay !== days.length - 1
+                      ? setChosenDay(chosenDay + 1)
+                      : setChosenDay(0)
+                  }
+                />
+              </div>
+
+              <div
+                className="ml-16 text-sm rounded-full text-white px-4 py-2 flex bg-blue-600 m-2 "
+                onClick={() => handleAddExercise(chosenDay)}
+              >
+                {/* <FaPlus className="text-white m-auto" /> */}
+                Add Exercise
+              </div>
+            </div>
+            <div className="w-1/3 flex justify-end gap-4 pr-4">
+              {weeks.length > 0 ? (
                 <button
                   className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
-                  onClick={handleAddWorkout}
+                  onClick={handleShow}
                 >
-                  Add Day
+                  Add Week
                 </button>
-              </div>
+              ) : (
+                <button
+                  className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
+                  onClick={() => handleAddWeek(false)}
+                >
+                  Add Week
+                </button>
+              )}
+
+              <button
+                className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
+                onClick={handleAddWorkout}
+              >
+                Add Day
+              </button>
             </div>
-            {/* bottom menu */}
+          </div>
+          {/* bottom menu */}
 
-            <div className="mt-4">
-              {days &&
-                days.length > 0 &&
-                days.map(
-                  (each, index) =>
-                    chosenDay === index && (
-                      <div
-                        className="relative m-auto w-full border-2 border-gray-400  rounded p-2 my-4"
-                        key={index}
-                      >
-                        {/* bottom menu */}
-
-                        <div className="fixed bottom-0 w-full nav-color z-10 flex flex-warp -ml-6">
-                          <div className="text-white flex flex-wrap w-fulll text-xl ml-4 mt-4">
-                            <FaAngleLeft
-                              onClick={() =>
-                                index !== 0
-                                  ? setChosenDay(chosenDay - 1)
-                                  : setChosenDay(days.length - 1)
-                              }
-                            />
-                          </div>
-                          <div
-                            className="w-1/5 mx-2 ml-8 mt-2 mt-3"
-                            onClick={handleShowManage}
-                          >
-                            {/* <input
-                              className="ml-4 titlebox"
-                              placeholder="Day"
-                              onChange={handleSingleDay(index, "day")}
-                              value={each.day}
-                            /> */}
-                            {each.day}
-                          </div>
-                          <div className="text-white flex flex-wrap w-fulll ml-4 text-xl mt-4">
-                            <FaAngleRight
-                              onClick={() =>
-                                index !== days.length - 1
-                                  ? setChosenDay(chosenDay + 1)
-                                  : setChosenDay(0)
-                              }
-                            />
-                          </div>
-
-                          <div
-                            className="ml-16 text-sm rounded-full text-white px-4 py-2 flex bg-blue-600 m-2 "
-                            onClick={() => handleAddExercise(index)}
-                          >
-                            {/* <FaPlus className="text-white m-auto" /> */}
-                            Add Exercise
-                          </div>
-                        </div>
-                        {/* bottom menu end */}
-                        <div>
-                          <input
-                            className="inputbox"
-                            placeholder="Body Parts"
-                            onChange={handleSingleDay(index, "parts")}
-                            value={each.parts}
-                          />
-                        </div>
+          <div className=" mt-4">
+            {days &&
+              days.length > 0 &&
+              days.map(
+                (each, index) =>
+                  chosenDay === index && (
+                    <div
+                      className="  relative m-auto w-full border-2 border-gray-400  rounded p-2 my-4"
+                      key={index}
+                    >
+                      <div>
+                        <input
+                          className="inputbox"
+                          placeholder="Body Parts"
+                          onChange={handleSingleDay(index, "parts")}
+                          value={each.parts}
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 gap-4">
                         {each.excercises.length > 0 &&
                           each.excercises.map((exercise, eIndex) => (
                             <div
-                              className="mt-2 border-solid  border-b-2 border-gray-400 border-l-2 p-4 last:mb-8"
+                              className="mt-2 border-solid  border-gray-400 p-4 border-2"
                               key={`week-${chosenWeek}-${index}=${eIndex}`}
                             >
                               <div className="flex justify-start gap-4">
@@ -542,15 +508,45 @@ const App = () => {
                             </div>
                           ))}
                       </div>
-                    )
-                )}
-            </div>
-          </>
-        )}
+                      {/* bottom menu */}
+
+                      <div className="fixed bottom-0 w-full nav-color z-10  -ml-6"></div>
+                      {/* bottom menu end */}
+                    </div>
+                  )
+              )}
+          </div>
+        </>
       </div>
       <Dialog
+        title="Manage Days"
+        open={manageDays}
+        onClose={handleHideManage}
+        body={
+          <div className="mt-2 w-full">
+            <div className="grid grid-cols-3 gap-4 mt-4 font-bold text-lg">
+              <div className="ml-4">Order</div>
+              <div>Day</div>
+            </div>
+            <SortableList
+              axis="y"
+              items={days}
+              onSortEnd={onSortEnd}
+              useDragHandle
+              handleSingleDay={handleSingleDay}
+              handleRemoveWorkout={handleRemoveWorkout}
+              currentIndex={chosenDay}
+              setChosenDay={setChosenDay}
+            />
+            <div className="back-color border border-gray-200 text-white w-full py-1 flex justify-center rounded-full mt-4">
+              <button onClick={handleAddWorkout}>Add Day</button>
+            </div>
+          </div>
+        }
+      />
+      <Dialog
         open={open}
-        className="w-4/5"
+        className="w-2/5"
         onClose={handleHide}
         title={"Copy Previous Week?"}
         body={
