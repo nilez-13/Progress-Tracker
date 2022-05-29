@@ -9,6 +9,8 @@ import {
   FaMinusCircle,
   FaArrowsAlt,
   FaTimesCircle,
+  FaCircleNotch,
+  FaCircle,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import { ToastContainer, toast } from "react-toastify";
@@ -57,23 +59,27 @@ const SortableList = SortableContainer(
             currentIndex={currentIndex}
             listIndex={index}
             value={
-              <div
-                className="mt-2 grid grid-cols-3 gap-4"
-                onClick={() => {
-                  setChosenDay(index);
-                  handleHideManage();
-                }}
-              >
-                <div className="ml-4 z-10">
+              <div className="mt-2 grid grid-cols-6 gap-4">
+                <div>
                   <DragHandle />
                 </div>
-                <div className="">
+
+                <div className="col-span-3">
                   <input
                     className=" inputbox"
                     placeholder="Day"
                     onChange={handleSingleDay(index, "day")}
                     value={each.day}
                   />
+                </div>
+                <div
+                  className="ml-4 z-10"
+                  onClick={() => {
+                    setChosenDay(index);
+                    handleHideManage();
+                  }}
+                >
+                  {index === currentIndex ? <FaCircle /> : <FaCircleNotch />}
                 </div>
                 <button className="text-red-500 flex justify-end mt-1 mr-2">
                   <FaMinusCircle onClick={() => handleRemoveWorkout(index)} />
@@ -190,6 +196,9 @@ const App = () => {
 
   const handleRemoveWorkout = (index) => {
     const tempDays = [...days];
+    if (index === chosenDay) {
+      setChosenDay(0);
+    }
     tempDays.splice(index, 1);
     setDays(tempDays);
     const tempWeeks = [...weeks];
@@ -328,12 +337,12 @@ const App = () => {
               axis="y"
               items={days}
               onSortEnd={onSortEnd}
-              useDragHandle
               handleSingleDay={handleSingleDay}
               handleRemoveWorkout={handleRemoveWorkout}
               currentIndex={chosenDay}
               setChosenDay={setChosenDay}
               handleHideManage={handleHideManage}
+              useDragHandle
             />
             <div className="back-color border border-gray-200 text-white w-full py-1 flex justify-center rounded-full mt-4">
               <button onClick={handleAddWorkout}>Add Day</button>
