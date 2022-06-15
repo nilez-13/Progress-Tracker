@@ -105,6 +105,10 @@ const App = () => {
   };
 
   useEffect(() => {
+    setChosenWeek(weeks.length - 1);
+  }, [weeks.length]);
+
+  useEffect(() => {
     const startingVals = JSON.parse(localStorage.getItem("weeks"));
     if (startingVals) {
       const lastIndex = startingVals.length - 1;
@@ -302,9 +306,7 @@ const App = () => {
     <>
       <div className=" px-2">
         <div className="fixed top-0 pt-2 back-color z-10 w-full flex justify-between gap-2 h-14  mb-2 border-b border-gray-300">
-          <div className="font-bold italic text-2xl">
-            Progress Tracker Web View
-          </div>
+          <div className="font-bold italic text-2xl">Progress Tracker</div>
           <div className="mr-4">
             <button
               className="p-1 bg-green-600 text-white rounded mt-1 px-2"

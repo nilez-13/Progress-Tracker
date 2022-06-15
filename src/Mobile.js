@@ -115,6 +115,10 @@ const App = () => {
   };
 
   useEffect(() => {
+    setChosenWeek(weeks.length - 1);
+  }, [weeks.length]);
+
+  useEffect(() => {
     const startingVals = JSON.parse(localStorage.getItem("weeks"));
     if (startingVals) {
       const lastIndex = startingVals.length - 1;
