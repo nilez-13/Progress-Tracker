@@ -13,6 +13,7 @@ import {
 import Dialog from "./Dialog";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import {
   SortableContainer,
@@ -159,6 +160,7 @@ const App = () => {
               };
             }),
             notes: "",
+            id: element2.id,
           };
           tempExercise.push(newExercise);
         }
@@ -409,109 +411,127 @@ const App = () => {
                           value={each.parts}
                         />
                       </div>
-                      <div className="grid grid-cols-3 gap-4">
+                      <TransitionGroup
+                        component="ul"
+                        className="grid grid-cols-3 gap-4"
+                      >
                         {each.excercises.length > 0 &&
                           each.excercises.map((exercise, eIndex) => (
-                            <div
-                              className="mt-2 border-solid  border-gray-400 p-4 border-2"
-                              key={`week-${chosenWeek}-${index}=${eIndex}`}
+                            <CSSTransition
+                              key={
+                                exercise.id
+                                  ? exercise.id
+                                  : `week-${chosenDay}-${chosenWeek}-${index}=${eIndex}`
+                              }
+                              timeout={{
+                                enter: 500,
+                                exit: 500,
+                              }}
+                              classNames="my-node"
                             >
-                              <div className="flex justify-start gap-4">
-                                <span className="font-bold text-lg">
-                                  Exercise
-                                </span>
+                              <li
+                                className="mt-2 border-solid  border-gray-400 p-4 border-2"
+                                key={`week-${chosenWeek}-${index}=${eIndex}`}
+                              >
+                                <div className="flex justify-start gap-4">
+                                  <span className="font-bold text-lg">
+                                    Exercise
+                                  </span>
 
-                                <input
-                                  className="inputbox"
-                                  placeholder="Exercise"
-                                  onChange={handleSingleExercise(
-                                    index,
-                                    eIndex,
-                                    "name"
-                                  )}
-                                  value={exercise.name}
-                                />
-                                <button
-                                  className="text-red-500  rounded px-2"
-                                  onClick={() =>
-                                    handleDeleteExercise(index, eIndex)
-                                  }
-                                >
-                                  <FaTrash />
-                                </button>
-                              </div>
-                              <div className="mt-2">
-                                <div className="grid grid-cols-7 gap-4">
-                                  <span className="grid col-span-2">Reps</span>
-                                  <span className="grid col-span-2">
-                                    Weight (kg)
-                                  </span>
-                                  <span className="grid col-span-2">
-                                    Difficulty
-                                  </span>
-                                  <span> </span>
+                                  <input
+                                    className="inputbox"
+                                    placeholder="Exercise"
+                                    onChange={handleSingleExercise(
+                                      index,
+                                      eIndex,
+                                      "name"
+                                    )}
+                                    value={exercise.name}
+                                  />
+                                  <button
+                                    className="text-red-500  rounded px-2"
+                                    onClick={() =>
+                                      handleDeleteExercise(index, eIndex)
+                                    }
+                                  >
+                                    <FaTrash />
+                                  </button>
                                 </div>
-                                {exercise.sets.map((set, sIndex) => (
-                                  <div className="my-1 grid grid-cols-7 gap-4">
-                                    <input
-                                      className="inputbox grid col-span-2"
-                                      placeholder="Reps"
-                                      onChange={handleSingleSet(
-                                        index,
-                                        eIndex,
-                                        sIndex,
-                                        "rep"
-                                      )}
-                                      value={set.rep}
-                                      type="number"
-                                    />
-                                    <input
-                                      className="inputbox grid col-span-2"
-                                      placeholder="Weight"
-                                      onChange={handleSingleSet(
-                                        index,
-                                        eIndex,
-                                        sIndex,
-                                        "weight"
-                                      )}
-                                      value={set.weight}
-                                      type="number"
-                                    />
-                                    <select
-                                      className="inputbox grid col-span-2"
-                                      placeholder="Difficulty"
-                                      onChange={handleSingleSet(
-                                        index,
-                                        eIndex,
-                                        sIndex,
-                                        "difficulty"
-                                      )}
-                                      value={set.difficulty}
-                                    >
-                                      {difficultyOptions.map((diff) => (
-                                        <option value={diff}>{diff}</option>
-                                      ))}
-                                    </select>
-                                    <button
-                                      className="text-red-500 flex justify-end mt-1 mr-2"
-                                      onClick={() =>
-                                        handleRemoveSet(index, eIndex, sIndex)
-                                      }
-                                    >
-                                      <FaMinusCircle />
-                                    </button>
+                                <div className="mt-2">
+                                  <div className="grid grid-cols-7 gap-4">
+                                    <span className="grid col-span-2">
+                                      Reps
+                                    </span>
+                                    <span className="grid col-span-2">
+                                      Weight (kg)
+                                    </span>
+                                    <span className="grid col-span-2">
+                                      Difficulty
+                                    </span>
+                                    <span> </span>
                                   </div>
-                                ))}
-                                <button
-                                  className="back-color border border-gray-200 text-white w-full py-1 flex justify-center rounded-full mt-2"
-                                  onClick={() => handleAddSet(index, eIndex)}
-                                >
-                                  <FaPlus />
-                                </button>
-                              </div>
-                            </div>
+                                  {exercise.sets.map((set, sIndex) => (
+                                    <div className="my-1 grid grid-cols-7 gap-4">
+                                      <input
+                                        className="inputbox grid col-span-2"
+                                        placeholder="Reps"
+                                        onChange={handleSingleSet(
+                                          index,
+                                          eIndex,
+                                          sIndex,
+                                          "rep"
+                                        )}
+                                        value={set.rep}
+                                        type="number"
+                                      />
+                                      <input
+                                        className="inputbox grid col-span-2"
+                                        placeholder="Weight"
+                                        onChange={handleSingleSet(
+                                          index,
+                                          eIndex,
+                                          sIndex,
+                                          "weight"
+                                        )}
+                                        value={set.weight}
+                                        type="number"
+                                      />
+                                      <select
+                                        className="inputbox grid col-span-2"
+                                        placeholder="Difficulty"
+                                        onChange={handleSingleSet(
+                                          index,
+                                          eIndex,
+                                          sIndex,
+                                          "difficulty"
+                                        )}
+                                        value={set.difficulty}
+                                      >
+                                        {difficultyOptions.map((diff) => (
+                                          <option value={diff}>{diff}</option>
+                                        ))}
+                                      </select>
+                                      <button
+                                        className="text-red-500 flex justify-end mt-1 mr-2"
+                                        onClick={() =>
+                                          handleRemoveSet(index, eIndex, sIndex)
+                                        }
+                                      >
+                                        <FaMinusCircle />
+                                      </button>
+                                    </div>
+                                  ))}
+                                  <button
+                                    className="back-color border border-gray-200 text-white w-full py-1 flex justify-center rounded-full mt-2"
+                                    onClick={() => handleAddSet(index, eIndex)}
+                                  >
+                                    <FaPlus />
+                                  </button>
+                                </div>
+                              </li>
+                            </CSSTransition>
                           ))}
-                      </div>
+                      </TransitionGroup>
                       {/* bottom menu */}
 
                       <div className="fixed bottom-0 w-full nav-color z-10  -ml-6"></div>

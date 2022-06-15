@@ -162,6 +162,8 @@ const App = () => {
           const element2 = element.excercises[index2];
           const newExercise = {
             name: element2.name,
+            id: element2.id,
+
             sets: element2.sets.map((each) => {
               return {
                 rep: each.rep,
