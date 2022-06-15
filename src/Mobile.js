@@ -397,12 +397,8 @@ const App = () => {
                 days.map(
                   (each, index) =>
                     chosenDay === index && (
-                      <CSSTransition
-                        key={each}
-                        timeout={700}
-                        classNames="example"
-                      >
-                        <div className="relative m-auto w-full border-2 border-gray-400  rounded p-2 my-4">
+                      <CSSTransition key={each} timeout={700} classNames="item">
+                        <li className="relative m-auto w-full border-2 border-gray-400  rounded p-2 my-4">
                           {/* bottom menu */}
 
                           <div className="fixed bottom-0 w-full nav-color z-10 flex flex-warp -ml-6">
@@ -557,7 +553,7 @@ const App = () => {
                                 </div>
                               </div>
                             ))}
-                        </div>
+                        </li>
                       </CSSTransition>
                     )
                 )}
