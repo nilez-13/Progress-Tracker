@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FaSave,
   FaTrash,
@@ -102,6 +102,7 @@ const App = () => {
   const [open, setOpen] = useState(false);
   const [chosenDay, setChosenDay] = useState(0);
   const [manageDays, setManageDays] = useState(false);
+  const exerciseRef = useRef(null);
 
   const singleDay = { day: "", parts: "", excercises: [] };
   const singleExercise = {
@@ -117,6 +118,16 @@ const App = () => {
   useEffect(() => {
     setChosenWeek(weeks.length - 1);
   }, [weeks.length]);
+
+  useEffect(() => {
+    if (exerciseRef.current !== null) {
+      exerciseRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }
+  }, [updated]);
 
   useEffect(() => {
     const startingVals = JSON.parse(localStorage.getItem("weeks"));
@@ -472,7 +483,10 @@ const App = () => {
                                 }}
                                 classNames="my-node"
                               >
-                                <li className="mt-2 border-solid  border-b-2 border-gray-400 border-l-2 p-4 last:mb-8">
+                                <li
+                                  className="mt-2 border-solid  border-b-2 border-gray-400 border-l-2 p-4 last:mb-8"
+                                  ref={exerciseRef}
+                                >
                                   <div className="flex justify-start gap-4">
                                     <span className="font-bold text-lg">
                                       Exercise
