@@ -243,7 +243,8 @@ const App = () => {
 
   const handleAddExercise = (index) => {
     const tempDays = [...days];
-    tempDays[index].excercises.push(singleExercise);
+    tempDays[index].excercises.push({ ...singleExercise, id: Math.random() });
+
     setDays(tempDays);
     const tempWeeks = [...weeks];
     tempWeeks[chosenWeek] = tempDays;

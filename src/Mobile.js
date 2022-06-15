@@ -254,7 +254,7 @@ const App = () => {
 
   const handleAddExercise = (index) => {
     const tempDays = [...days];
-    tempDays[index].excercises.push(singleExercise);
+    tempDays[index].excercises.push({ ...singleExercise, id: Math.random() });
     setDays(tempDays);
     window.scrollTo(0, document.body.scrollHeight);
 
@@ -455,7 +455,11 @@ const App = () => {
                           {each.excercises.length > 0 &&
                             each.excercises.map((exercise, eIndex) => (
                               <CSSTransition
-                                key={`week-${chosenWeek}-${index}=${eIndex}`}
+                                key={
+                                  exercise.id
+                                    ? exercise.id
+                                    : `week-${chosenDay}-${chosenWeek}-${index}=${eIndex}`
+                                }
                                 timeout={{
                                   enter: 500,
                                   exit: 500,
