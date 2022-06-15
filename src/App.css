@@ -101,7 +101,7 @@ body {
   transition: opacity 300ms ease-in;
 }
 
-.example-exit-active {
+.item-exit-active {
   opacity: 0;
   transition: opacity 700ms ease-out;
 }
