@@ -23,6 +23,7 @@ import {
 } from "react-sortable-hoc";
 import { arrayMoveImmutable as arrayMove } from "array-move";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import Notice from "./Notice";
 
 const DragHandle = SortableHandle(() => (
   <span className="hover:shadow-lg ease-in-out cursor-move">
@@ -627,8 +628,7 @@ const App = () => {
           </>
         }
       />
-      <div id="modal-root" />
-      <ToastContainer position="top-center" theme="dark" autoClose={1000} />
+      <Notice />
     </>
   );
 };
