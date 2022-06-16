@@ -93,6 +93,7 @@ const App = () => {
   const [chosenDay, setChosenDay] = useState(0);
   const [manageDays, setManageDays] = useState(false);
   const exerciseRef = useRef(null);
+  const [isDelete, setIsDelete] = useState(false);
 
   const singleDay = { day: "", parts: "", excercises: [] };
   const singleExercise = {
@@ -110,7 +111,7 @@ const App = () => {
   }, [weeks.length]);
 
   useEffect(() => {
-    if (exerciseRef.current !== null) {
+    if (isDelete === false && exerciseRef.current !== null) {
       exerciseRef.current.scrollIntoView({
         behavior: "smooth",
         block: "end",
@@ -259,6 +260,7 @@ const App = () => {
   };
 
   const handleAddExercise = (index) => {
+    setIsDelete(false);
     const tempDays = [...days];
     tempDays[index].excercises.push({ ...singleExercise, id: Math.random() });
 
@@ -291,6 +293,7 @@ const App = () => {
   };
 
   const handleDeleteExercise = (index, eIndex) => {
+    setIsDelete(true);
     const tempDays = [...days];
     tempDays[index].excercises.splice(eIndex, 1);
     setDays(tempDays);
