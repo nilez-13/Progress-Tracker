@@ -85,7 +85,7 @@ const SortableList = SortableContainer(
   }
 );
 
-const App = () => {
+const App = ({ dateIndex }) => {
   const [weeks, setWeeks] = useState([]);
   const [days, setDays] = useState([]);
   const [updated, setUpdated] = useState(false);
@@ -142,6 +142,9 @@ const App = () => {
       setWeeks(startingVals);
       setChosenWeek(lastIndex);
       setDays(startingVals[lastIndex]);
+      console.log(dateIndex);
+
+      setChosenDay(dateIndex);
     }
   }, []);
 
