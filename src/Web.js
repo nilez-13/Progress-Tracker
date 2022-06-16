@@ -319,9 +319,84 @@ const App = () => {
   return (
     <>
       <div className=" px-2">
-        <div className="fixed top-0 pt-2 back-color z-10 w-full flex justify-between gap-2 h-14  mb-2 border-b border-gray-300">
-          <div className="font-bold italic text-2xl">Progress Tracker</div>
-          <div className="mr-4">
+        <div className="fixed top-0 pt-2 back-color z-10 w-full grid grid-cols-9 gap-2 h-14  mb-2 border-b border-gray-300">
+          <div className="font-bold italic text-2xl col-span-2">
+            Progress Tracker
+          </div>
+          <div className="mt-1 col-span-2">
+            <select
+              className="inputbox"
+              value={chosenWeek}
+              onChange={handleWeekChoose}
+            >
+              <option value={""}>Choose week</option>
+              {weeks.map((each, index) => (
+                <option value={index}>Week {index + 1}</option>
+              ))}
+            </select>
+          </div>
+          <div className="mt-1 ml-8 ">
+            {weeks.length > 0 ? (
+              <button
+                className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
+                onClick={handleShow}
+              >
+                Add Week
+              </button>
+            ) : (
+              <button
+                className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
+                onClick={() => handleAddWeek(false)}
+              >
+                Add Week
+              </button>
+            )}
+          </div>
+          <div className="mt-1 -mr-1 ">
+            <button
+              className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
+              onClick={handleAddWorkout}
+            >
+              Add Day
+            </button>
+          </div>
+          <div className=" flex flex-warp justify-center cursor-pointer">
+            <div className="text-white flex flex-wrap w-fulll text-xl ml-4 mt-2">
+              <FaAngleLeft
+                onClick={() =>
+                  chosenDay !== 0
+                    ? setChosenDay(chosenDay - 1)
+                    : setChosenDay(days.length - 1)
+                }
+              />
+            </div>
+            <div
+              className="flex justify-center px-4 mt-1.5"
+              onClick={handleShowManage}
+            >
+              {days[chosenDay] && days[chosenDay].day}
+            </div>
+            <div className="text-white flex flex-wrap w-fulll text-xl mt-2">
+              <FaAngleRight
+                onClick={() =>
+                  chosenDay !== days.length - 1
+                    ? setChosenDay(chosenDay + 1)
+                    : setChosenDay(0)
+                }
+              />
+            </div>
+          </div>
+          <div className="mt-1 mx-auto ">
+            <button
+              className="px-2 py-1 text-sm bg-blue-600 text-white rounded "
+              onClick={() => handleAddExercise(chosenDay)}
+            >
+              {/* <FaPlus className="text-white m-auto" /> */}
+              Add Exercise
+            </button>
+          </div>
+
+          <div className="mx-auto">
             <button
               className="p-1 bg-green-600 text-white rounded mt-1 px-2"
               onClick={handleSave}
@@ -335,79 +410,6 @@ const App = () => {
 
         <>
           {/* main body */}
-          <div className="mt-16 w-full flex justify-between gap-2 ">
-            <div className="w-1/3">
-              <select
-                className="inputbox"
-                value={chosenWeek}
-                onChange={handleWeekChoose}
-              >
-                <option value={""}>Choose week</option>
-                {weeks.map((each, index) => (
-                  <option value={index}>Week {index + 1}</option>
-                ))}
-              </select>
-            </div>
-            <div className="w-1/3 flex flex-warp justify-center cursor-pointer">
-              <div className="text-white flex flex-wrap w-fulll text-xl ml-4 mt-4">
-                <FaAngleLeft
-                  onClick={() =>
-                    chosenDay !== 0
-                      ? setChosenDay(chosenDay - 1)
-                      : setChosenDay(days.length - 1)
-                  }
-                />
-              </div>
-              <div
-                className="flex justify-center px-4 mt-3"
-                onClick={handleShowManage}
-              >
-                {days[chosenDay] && days[chosenDay].day}
-              </div>
-              <div className="text-white flex flex-wrap w-fulll text-xl mt-4">
-                <FaAngleRight
-                  onClick={() =>
-                    chosenDay !== days.length - 1
-                      ? setChosenDay(chosenDay + 1)
-                      : setChosenDay(0)
-                  }
-                />
-              </div>
-
-              <div
-                className="ml-16 text-sm rounded-full text-white px-4 py-2 flex bg-blue-600 m-2 "
-                onClick={() => handleAddExercise(chosenDay)}
-              >
-                {/* <FaPlus className="text-white m-auto" /> */}
-                Add Exercise
-              </div>
-            </div>
-            <div className="w-1/3 flex justify-end gap-4 pr-4">
-              {weeks.length > 0 ? (
-                <button
-                  className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
-                  onClick={handleShow}
-                >
-                  Add Week
-                </button>
-              ) : (
-                <button
-                  className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
-                  onClick={() => handleAddWeek(false)}
-                >
-                  Add Week
-                </button>
-              )}
-
-              <button
-                className="px-2 py-1 text-sm bg-blue-600 text-white rounded"
-                onClick={handleAddWorkout}
-              >
-                Add Day
-              </button>
-            </div>
-          </div>
-          {/* bottom menu */}
 
           <div className=" mt-4">
             {days &&
