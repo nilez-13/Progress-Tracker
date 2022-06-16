@@ -396,9 +396,9 @@ const App = () => {
             </button>
           </div>
 
-          <div className="mx-auto">
+          <div className="flex justify-end mr-4 mb-4">
             <button
-              className="p-1 bg-green-600 text-white rounded mt-1 px-2"
+              className=" p-1 bg-green-600 text-white rounded mt-1 px-2"
               onClick={handleSave}
             >
               <span className="flex flex-wrap gap-2 font-bold">
