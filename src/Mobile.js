@@ -118,7 +118,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    setChosenWeek(weeks.length - 1);
+    handleWeekChooseNumber(weeks.length - 1);
   }, [weeks.length]);
 
   useEffect(() => {
@@ -132,6 +132,20 @@ const App = () => {
   }, [updated]);
 
   useEffect(() => {
+    localStorage.setItem(
+      "weeks",
+      JSON.stringify([
+        [
+          { day: "Sunday", parts: "", excercises: [] },
+          { day: "Monday", parts: "", excercises: [] },
+          { day: "Tuesday", parts: "", excercises: [] },
+          { day: "Wednesday", parts: "", excercises: [] },
+          { day: "Thursday", parts: "", excercises: [] },
+          { day: "Friday", parts: "", excercises: [] },
+          { day: "Saturday", parts: "", excercises: [] },
+        ],
+      ])
+    );
     const startingVals = JSON.parse(localStorage.getItem("weeks"));
     if (startingVals) {
       const lastIndex = startingVals.length - 1;
@@ -198,6 +212,12 @@ const App = () => {
     tempWeeks.push(tempDays);
     setWeeks(tempWeeks);
     handleHide();
+    setUpdated(!updated);
+  };
+
+  const handleWeekChooseNumber = (index) => {
+    setChosenWeek(index);
+    setDays(weeks[index]);
   };
 
   const handleWeekChoose = (event) => {
