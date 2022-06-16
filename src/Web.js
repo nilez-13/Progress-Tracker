@@ -122,9 +122,15 @@ const App = ({ dateIndex }) => {
   }, [updated]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "weeks",
-      JSON.stringify([
+    const startingVals = JSON.parse(localStorage.getItem("weeks"));
+    if (startingVals) {
+      const lastIndex = startingVals.length - 1;
+      setWeeks(startingVals);
+      setChosenWeek(lastIndex);
+      setDays(startingVals[lastIndex]);
+      setChosenDay(dateIndex);
+    } else {
+      const newVals = [
         [
           { day: "Sunday", parts: "", excercises: [] },
           { day: "Monday", parts: "", excercises: [] },
@@ -134,16 +140,12 @@ const App = ({ dateIndex }) => {
           { day: "Friday", parts: "", excercises: [] },
           { day: "Saturday", parts: "", excercises: [] },
         ],
-      ])
-    );
-    const startingVals = JSON.parse(localStorage.getItem("weeks"));
-    if (startingVals) {
-      const lastIndex = startingVals.length - 1;
-      setWeeks(startingVals);
+      ];
+      localStorage.setItem("weeks", JSON.stringify(newVals));
+      const lastIndex = newVals.length - 1;
+      setWeeks(newVals);
       setChosenWeek(lastIndex);
-      setDays(startingVals[lastIndex]);
-      console.log(dateIndex);
-
+      setDays(newVals[lastIndex]);
       setChosenDay(dateIndex);
     }
   }, []);
