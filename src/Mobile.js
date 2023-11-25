@@ -11,6 +11,8 @@ import {
   FaTimesCircle,
   FaCircleNotch,
   FaCircle,
+  FaUpload,
+  FaDownload,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
 import { ToastContainer, toast } from "react-toastify";
@@ -347,6 +349,17 @@ const App = ({ dateIndex }) => {
     // console.log("saved");
   };
 
+  const handleExport = () => {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(weeks)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = "data.json";
+
+    link.click();
+  };
+
   const onSortEnd = ({ oldIndex, newIndex }) => {
     const newImage = arrayMove(days, oldIndex, newIndex);
     setDays(newImage);
@@ -354,12 +367,43 @@ const App = ({ dateIndex }) => {
 
   const difficultyOptions = ["easy", "medium", "hard"];
 
+  const [importOpen, setImportOpen] = useState(false);
+
+  const handleDownload = (e) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e) => {
+      localStorage.setItem("weeks", e.target.result);
+    };
+
+    const reloadPage = setTimeout(() => {
+      window.location.reload();
+    }, 100);
+
+    return () => clearTimeout(reloadPage);
+  };
+
   return (
     <>
       <div className=" px-2">
         <div className="fixed top-0 pt-2 back-color z-10 w-full flex justify-between gap-2 h-14  mb-2 border-b border-gray-300">
           <div className="font-bold italic text-2xl">Progress Tracker</div>
           <div className="mr-4">
+            <button className="p-1 bg-green-600 text-white rounded mt-1 px-2 mr-2">
+              <span className="flex flex-wrap gap-2 font-bold">
+                <FaDownload
+                  className="mt-1"
+                  onClick={() => {
+                    setImportOpen(true);
+                  }}
+                />
+              </span>
+            </button>
+            <button className="p-1 bg-green-600 text-white rounded mt-1 px-2 mr-2">
+              <span className="flex flex-wrap gap-2 font-bold">
+                <FaUpload className="mt-1" onClick={handleExport} />
+              </span>
+            </button>
             <button
               className="p-1 bg-green-600 text-white rounded mt-1 px-2"
               onClick={handleSave}
@@ -628,6 +672,19 @@ const App = ({ dateIndex }) => {
           </>
         )}
       </div>
+      <Dialog
+        open={importOpen}
+        title={"Import JSON"}
+        className="w-4/5"
+        onClose={() => {
+          setImportOpen(false);
+        }}
+        body={
+          <div>
+            <input type="file" onChange={handleDownload} />
+          </div>
+        }
+      />
       <Dialog
         open={open}
         className="w-4/5"
